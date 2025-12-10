@@ -5,10 +5,11 @@
 package com.mycompany.sistemadiagnosticos;
 
 import com.mycompany.models.Enfermedad;
-import com.mycompany.models.EnfermedadDAO;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import com.mycompany.prolog.FactsBuilder;
+import com.mycompany.prolog.PrologQueryExecutor;
 import java.util.List;
+import org.jpl7.Query;
+
 
 /**
  *
@@ -17,24 +18,21 @@ import java.util.List;
 public class SistemaDiagnosticos {
 
     public static void main(String[] args) {
-        EnfermedadDAO ed = new EnfermedadDAO();
-        try{
-            List<Enfermedad>enfermedades = ed.obtenerEnfermedades();
-            for(Enfermedad e : enfermedades){
-                System.out.println("----ENFERMEDAD-----------");
-                System.out.println(e.getNombre());
-                System.out.println("----CATEGORIA------------");
-                System.out.println(e.getCategoria());
-                System.out.println("-----SINTOMAS------------");
-                for(String t : e.getSintomas()){
-                    System.out.println(t);
-                }
-                System.out.println("-----RECOMENDACIONES-----");
-                System.out.println(e.getRecomendaciones());
-                System.out.println("-------------------------");
-            }
-        }catch (SQLException ex){
-            System.getLogger(EnfermedadDAO.class.getName()).log(System.Logger.Level.ERROR,(String) null, ex);
+        String rules = "consult('prolog.pl')";
+       
+        Query q = new Query(rules);
+
+        if (q.hasSolution()) {
+            System.out.println("Archivo Prolog cargado correctamente.");
         }
-    }
+        FactsBuilder.construirFactsEnfermedad();
+        List<Enfermedad> lista = PrologQueryExecutor.getEnfermedades("enfermedad(Nom,sintomas(Sin),categoria(viral),recomendaciones(Rec))");
+        for(Enfermedad e : lista){
+            System.out.println("Nombre: " + e.getNombre());
+            System.out.println("Sintomas: " + e.getSintomas());
+            System.out.println("Categoria: " + e.getCategoria());
+            System.out.println("Recomendaciones: " + e.getRecomendaciones());
+        }      
+    }   
 }
+

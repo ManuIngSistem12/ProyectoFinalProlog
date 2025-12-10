@@ -12,7 +12,6 @@ import java.util.List;
  * @author Manuel
  */
 public class Enfermedad {
-    
     private String nombre;
     private String recomendaciones;
     private String categoria;

@@ -1,13 +1,4 @@
-enfermedad(gripe,sintomas([fiebre,tos,dolor_cabeza,dolor_muscular]),categoria(viral),recomendaciones([descansar,hidratar,consultar_medico])).
-enfermedad(resfriado,sintomas([tos,estornudos,dolor_garganta]),categoria(viral),recomendaciones([descansar,hidratar])).
-enfermedad(diabetes,sintomas([sed,cansancio,perdida_peso]),categoria(cronica),recomendaciones([controlar_dieta,consultar_especialista])).
-enfermedad(covid_19,sintomas([fiebre,tos,cansancio,perdida_gusto_olfato]),categoria(viral),recomendaciones([aislamiento,consultar_medico])).
-enfermedad(varicela,sintomas([fiebre,erupcion,picazon]),categoria(viral),recomendaciones([descansar,evitar_rascar_lesiones])).
-enfermedad(migrania,sintomas([dolor_cabeza,nausea,sensibilidad_luz]),categoria(cronica),recomendaciones([descansar,evitar_luz_intensa])).
-enfermedad(alergia,sintomas([estornudos,picazon,ojos_lagrimosos]),categoria(alergia),recomendaciones([evitar_alergenos,antihistaminicos])).
-enfermedad(hipotiroidismo,sintomas([cansancio,aumento_peso,piel_seca]),categoria(cronica),recomendaciones([control_medico_y_medicacion])).
-enfermedad(gastroenteritis,sintomas([vomito,diarrea,dolor_abdominal,fiebre]),categoria(viral),recomendaciones([hidratacion,dieta_ligera])).
-enfermedad(faringitis,sintomas([dolor_garganta,fiebre,tos]),categoria(viral/bacteriana),recomendaciones([consultar_medico])).
+:- dynamic(enfermedad/4).
 
 buscar_en(X, [X | _]).
 buscar_en(X, [_ | Cola]) :-
