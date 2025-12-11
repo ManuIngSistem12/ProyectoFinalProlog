@@ -8,17 +8,16 @@ package com.mycompany.models;
  *
  * @author Manuel
  */
-public class Paciente {
+public class Sintoma {
     private int id;
     private String nombre;
-    private int edad;
 
-    public Paciente(int id, String nombre, int edad) {
+    public Sintoma(int id,  String nombre) {
+        this.id = id;
         this.nombre = nombre;
-        this.edad = edad;
     }
-
-    public Paciente() {
+    
+    public Sintoma() {
     }
 
     public int getId() {
@@ -37,14 +36,6 @@ public class Paciente {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public int getEdad() {
-        return edad;
-    }
-
-    public void setEdad(int edad) {
-        this.edad = edad;
     }
     
     

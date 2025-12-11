@@ -5,10 +5,14 @@
 package com.mycompany.sistemadiagnosticos;
 
 import com.mycompany.models.Enfermedad;
+import com.mycompany.models.EnfermedadDAO;
 import com.mycompany.models.PacienteDAO;
+import com.mycompany.models.Sintoma;
+import com.mycompany.models.SintomaDAO;
 import com.mycompany.prolog.FactsBuilder;
 import com.mycompany.prolog.PrologQueryExecutor;
 import com.mycompany.views.VentanaPrincipal;
+import java.sql.SQLException;
 import java.util.List;
 import org.jpl7.Query;
 

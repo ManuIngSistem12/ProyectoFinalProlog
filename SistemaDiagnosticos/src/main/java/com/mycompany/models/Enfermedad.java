@@ -12,11 +12,20 @@ import java.util.List;
  * @author Manuel
  */
 public class Enfermedad {
+    private int id;
     private String nombre;
     private String recomendaciones;
     private String categoria;
     private List<String> sintomas;
 
+    public Enfermedad(int id, String nombre, String recomendaciones, String categoria){
+        this.id = id;
+        this.nombre = nombre;
+        this.recomendaciones = recomendaciones;
+        this.categoria = categoria;
+        this.sintomas = new ArrayList<>();
+    }
+    
     public Enfermedad(String nombre, String recomendaciones, String categoria){
         this.nombre = nombre;
         this.recomendaciones = recomendaciones;
@@ -26,6 +35,14 @@ public class Enfermedad {
 
     public Enfermedad() {
         this.sintomas = new ArrayList<>();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
     
     

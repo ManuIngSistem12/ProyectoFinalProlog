@@ -64,6 +64,7 @@ public class EnfermedadDAO {
                 if(!enfermedadesSinDuplicados.contains(rs.getString("enf_nombre"))){
                     enfermedadesSinDuplicados.add(rs.getString("enf_nombre"));
                     Enfermedad e = new Enfermedad();
+                    e.setId(rs.getInt("enf_id"));
                     e.setNombre(rs.getString("enf_nombre"));
                     e.setRecomendaciones(rs.getString("enf_recomendacion_basica"));
                     e.setCategoria(rs.getString("cat_nombre"));

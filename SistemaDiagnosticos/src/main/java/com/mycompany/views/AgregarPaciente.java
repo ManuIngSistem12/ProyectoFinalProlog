@@ -246,6 +246,7 @@ public class AgregarPaciente extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, "Se Agrego el paciente a la base de datos");
                 this.dispose();
             }
+            
         }catch(SQLException e){
             JOptionPane.showMessageDialog(this, "error al intentar insertar el paciente en la base de datos" + e.getMessage());
         }
