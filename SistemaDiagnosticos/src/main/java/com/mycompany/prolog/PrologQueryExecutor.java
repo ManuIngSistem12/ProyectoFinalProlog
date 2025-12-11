@@ -33,7 +33,7 @@ public class PrologQueryExecutor {
             Map<String, Term> sol = q.nextSolution();
             
             String nombre = null;
-            Term nombreT = sol.get("Nom");
+            Term nombreT = sol.get("Nom"); 
             if (nombreT != null) {
                 nombre = nombreT.toString();
             }
