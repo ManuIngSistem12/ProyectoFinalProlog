@@ -55,6 +55,54 @@ public class EnfermedadDAO {
         return enfermedades;
     }
     
+    
+    
+    public Enfermedad obtenerEnfermedad(String N) throws SQLException{
+        String sql = "SELECT e.enf_id, e.enf_nombre, e.enf_recomendacion_basica, c.cat_nombre FROM enfermedad AS e JOIN categoria AS c ON c.cat_id = e.cat_id WHERE e.enf_nombre = ?;";
+        Enfermedad e = new Enfermedad();
+        PreparedStatement ps =null;
+        ResultSet rs = null;
+        
+        try{
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, N);
+            rs = ps.executeQuery();
+            e = mapearEnfermedad(rs);
+        }finally{
+            if(rs != null){
+                try{
+                    rs.close();
+                }catch (SQLException ignored){
+                    System.out.println("Error clossing result set");
+                }
+            }
+            
+            if(ps != null){
+                try{
+                    ps.close();
+                }catch(SQLException ignored){
+                    System.out.println("Error clossing Prepared Statement");    
+                }
+            }
+        }
+        return e;
+    }
+    
+    private Enfermedad mapearEnfermedad(ResultSet rs) {
+        Enfermedad e = new Enfermedad();
+        try {
+            while (rs.next()) {
+                e.setId(rs.getInt("enf_id"));
+                e.setNombre(rs.getString("enf_nombre"));
+                e.setRecomendaciones(rs.getString("enf_recomendacion_basica"));
+                e.setCategoria(rs.getString("cat_nombre"));
+            }
+        } catch (SQLException ex) {
+            System.getLogger(PacienteDAO.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+        return e;
+    }
+    
     private List<Enfermedad> mapearEnfermedadObjeto(ResultSet rs){
         List<Enfermedad> enfermedades = new ArrayList<>();
         Set<String> enfermedadesSinDuplicados = new HashSet<>();

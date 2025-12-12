@@ -4,6 +4,7 @@
  */
 package com.mycompany.views;
 
+import com.mycompany.models.DiagnosticoDAO;
 import com.mycompany.models.Enfermedad;
 import com.mycompany.models.EnfermedadDAO;
 import com.mycompany.models.Paciente;
@@ -15,8 +16,10 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
@@ -28,9 +31,10 @@ import javax.swing.JOptionPane;
  */
 public class DiagnosticoPaciente extends javax.swing.JDialog {
 
-    /**
-     * Creates new form DiagnosticoPaciente
-     */
+    private List<Enfermedad> pE;
+    private List<Sintoma> ss;
+    private Paciente p;
+
     public DiagnosticoPaciente(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -66,6 +70,7 @@ public class DiagnosticoPaciente extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtPosiblesEnfermedades = new javax.swing.JTextArea();
+        btnCrearDiagnostico = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -143,22 +148,36 @@ public class DiagnosticoPaciente extends javax.swing.JDialog {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel5))
+                .addComponent(jLabel5)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2)
                 .addContainerGap())
         );
+
+        btnCrearDiagnostico.setFont(new java.awt.Font("Tempus Sans ITC", 0, 15)); // NOI18N
+        btnCrearDiagnostico.setText("CREAR DIAGNOSTICO");
+        btnCrearDiagnostico.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCrearDiagnosticoMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnCrearDiagnosticoMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnCrearDiagnosticoMouseExited(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -167,26 +186,31 @@ public class DiagnosticoPaciente extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(panelSintomas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNombrePaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
+                        .addGap(45, 45, 45)
+                        .addComponent(btnGenerar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(110, 110, 110)
+                        .addComponent(btnCrearDiagnostico, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtEdadPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addGap(31, 31, 31)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(txtIdPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(btnGenerar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(60, Short.MAX_VALUE))
+                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txtNombrePaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel1))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txtEdadPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel2))
+                                    .addGap(31, 31, 31)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel3)
+                                        .addComponent(txtIdPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -200,7 +224,7 @@ public class DiagnosticoPaciente extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(panelSintomas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(52, Short.MAX_VALUE))
+                        .addContainerGap(60, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtIdPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -209,10 +233,12 @@ public class DiagnosticoPaciente extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnGenerar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36))))
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnGenerar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnCrearDiagnostico, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
+                        .addGap(63, 63, 63))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -239,16 +265,16 @@ public class DiagnosticoPaciente extends javax.swing.JDialog {
 
     private void btnGenerarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGenerarMouseClicked
         this.txtSintomasSeleccionados.setText(null);
-        this.txtPosiblesEnfermedades.setText(null);
+        this.txtPosiblesEnfermedades.setText("Enfermedad|Categoria|Recomendaciones"+"\n"+"\n");
         if (this.txtNombrePaciente.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "No se puede generar el diagnostico sin el nombre del paciente");
             return;
         }
         String n = this.txtNombrePaciente.getText();
-        Paciente p;
+
         try {
             PacienteDAO pdao = new PacienteDAO();
-            p = pdao.buscarPaciente(n);
+            this.p = pdao.buscarPaciente(n);
 
             this.txtNombrePaciente.setText(p.getNombre());
             this.txtEdadPaciente.setText(String.valueOf(p.getEdad()));
@@ -257,16 +283,54 @@ public class DiagnosticoPaciente extends javax.swing.JDialog {
         } catch (SQLException ex) {
             System.getLogger(PacienteDAO.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
-        List<Sintoma> ss = obtenerSeleccionados();
+        this.ss = obtenerSeleccionados();
         for (Sintoma s : ss) {
             this.txtSintomasSeleccionados.append(s.getId() + ". " + s.getNombre() + "\n");
         }
 
-        List<Enfermedad> pE = pEnfermedades(ss);
-        for (Enfermedad e : pE) {
-            this.txtPosiblesEnfermedades.append(e.getNombre() + "\n");
+        this.pE = pEnfermedades(ss);
+        for(Enfermedad f: pE){
+            Enfermedad en = PrologQueryExecutor.getEnfermedad("enfermedad("+f.getNombre()+",sintomas(Sin),categoria(Cat),recomendaciones(Rec))");
+            txtPosiblesEnfermedades.append(f.getNombre()+"  |  "+en.getCategoria()+"  |  "+en.getRecomendaciones()+"\n"+"\n");
         }
+
     }//GEN-LAST:event_btnGenerarMouseClicked
+
+    private void btnCrearDiagnosticoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCrearDiagnosticoMouseEntered
+        this.btnCrearDiagnostico.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_btnCrearDiagnosticoMouseEntered
+
+    private void btnCrearDiagnosticoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCrearDiagnosticoMouseExited
+        this.btnCrearDiagnostico.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_btnCrearDiagnosticoMouseExited
+
+    private void btnCrearDiagnosticoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCrearDiagnosticoMouseClicked
+        if (txtIdPaciente.getText().isEmpty() || txtIdPaciente.getText().equals("0")) {
+            JOptionPane.showMessageDialog(this, "no se puede guardar el diagnostico sin seleccionar sintomas o un paciente valido");
+        }
+        EnfermedadDAO edao = new EnfermedadDAO();
+        List<Sintoma> sd = this.ss;
+        Enfermedad e = enfermedadMasProbable(this.pE);
+        Enfermedad ed = null;
+        try {
+            ed = edao.obtenerEnfermedad(e.getNombre());
+        } catch (SQLException ex) {
+            System.getLogger(EnfermedadDAO.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+
+        int idP = Integer.parseInt(txtIdPaciente.getText());
+        int idE = ed.getId();
+
+        try {
+            DiagnosticoDAO ddao = new DiagnosticoDAO();
+            if (ddao.agregarDiagnostico(idP, idE, sd)) {
+                JOptionPane.showMessageDialog(this, "Diagnostico agregado correctamente a la base de datos");
+                this.dispose();
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "error al intentar insertar el paciente en la base de datos" + ex.getMessage());
+        }
+    }//GEN-LAST:event_btnCrearDiagnosticoMouseClicked
 
     private void generarSintomasCheckBox() {
         SintomaDAO sdao = new SintomaDAO();
@@ -295,7 +359,7 @@ public class DiagnosticoPaciente extends javax.swing.JDialog {
         }
         return selected;
     }
-    
+
     private List<Enfermedad> pEnfermedades(List<Sintoma> s) {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
@@ -309,25 +373,47 @@ public class DiagnosticoPaciente extends javax.swing.JDialog {
         sb.append("]");
 
         List<Enfermedad> Eexacta = PrologQueryExecutor.getEnfermedades("coincide_sintomas(" + sb.toString() + ",Nom)");
-        
+
         if (!Eexacta.isEmpty()) {
             return Eexacta;
         }
-        
+
         List<Enfermedad> posiblesEnf = PrologQueryExecutor.getEnfermedades("diagnostico(" + sb.toString() + ",Nom)");
-        
-        Set<String> eSinRepetir = new HashSet<>();
-        List<Enfermedad> eFinal = new ArrayList<>();
-        for (Enfermedad e : posiblesEnf) {
-            if (eSinRepetir.add(e.getNombre())) {
-                eFinal.add(e);
+
+        return posiblesEnf;
+    }
+
+    private Enfermedad enfermedadMasProbable(List<Enfermedad> lista) {
+
+        Map<String, Integer> contador = new HashMap<>();
+
+        for (Enfermedad e : lista) {
+            contador.put(e.getNombre(), contador.getOrDefault(e.getNombre(), 0) + 1);
+        }
+
+        String mejor = null;
+        int max = 0;
+
+        for (Map.Entry<String, Integer> entry : contador.entrySet()) {
+            if (entry.getValue() > max) {
+                mejor = entry.getKey();
+                max = entry.getValue();
             }
         }
-        return eFinal;
+
+        // devolver el objeto Enfermedad original
+        for (Enfermedad e : lista) {
+            if (e.getNombre().equals(mejor)) {
+                return e;
+            }
+        }
+
+        return null; // no debería pasar
     }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCrearDiagnostico;
     private javax.swing.JButton btnGenerar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
